@@ -11,12 +11,16 @@ public class ConsumerStepMetaMapper extends XulEventSourceAdapter {
     public static String OUTPUT_NAME = "output_name";
     public static String SUB_BROKER = "sub_broker";
     public static String SUB_TOPIC = "sub_topic";
+    public static String USER_NAME = "username";
+    public static String PASSWORD = "password";
     public static String CLIENT_ID = "client_id";
     public static String QOS = "qos";
 
     private String output = "dummy";
     private String sBroker = "tcp://127.0.0.1:1883";
     private String sTopic = "iotdevices";
+    private String sUserName = "";
+    private String sPassword = "";
     private String clientI = "clientID";
     private int qos = 1;
 
@@ -38,6 +42,18 @@ public class ConsumerStepMetaMapper extends XulEventSourceAdapter {
         firePropertyChange(SUB_TOPIC, previousVal, sTopic);
     }
 
+	public void setsUserName(String arg) {
+		String previousVal = sUserName;
+		sUserName = arg;
+		firePropertyChange(USER_NAME, previousVal, sUserName);
+	}
+
+	public void setsPassword(String arg) {
+		String previousVal = sUserName;
+		sPassword = arg;
+		firePropertyChange(PASSWORD, previousVal, sPassword);
+	}
+	
     public void setClientId(String arg) {
         String previousVal = clientI;
         clientI = arg;
@@ -62,7 +78,15 @@ public class ConsumerStepMetaMapper extends XulEventSourceAdapter {
         return sTopic;
     }
 
-    public String getClientId() {
+    public String getsUserName() {
+		return sUserName;
+	}
+
+	public String getsPassword() {
+		return sPassword;
+	}
+
+	public String getClientId() {
         return clientI;
     }
 
@@ -81,6 +105,8 @@ public class ConsumerStepMetaMapper extends XulEventSourceAdapter {
         setClientId(meta.getClientId());
         setQos(meta.getQos());
         setSTopic(meta.getSubTopic());
+        setsUserName(meta.getUserName());
+        setsPassword(meta.getPassword());
     }
 
     /**
@@ -94,6 +120,8 @@ public class ConsumerStepMetaMapper extends XulEventSourceAdapter {
         meta.setClientId(getClientId());
         meta.setQos(getQos());
         meta.setSubTopic(getsTopic());
+        meta.setUserName(getsUserName());
+        meta.setPassword(getsPassword());
         meta.setChanged();
     }
 }

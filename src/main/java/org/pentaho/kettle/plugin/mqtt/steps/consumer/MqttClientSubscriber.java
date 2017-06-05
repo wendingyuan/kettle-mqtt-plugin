@@ -19,6 +19,8 @@ public class MqttClientSubscriber implements MqttCallback {
 
     String topic;
     String broker;
+    String username;
+    String password;
     String clientId;
     int qos = 1;
     boolean cleanSession = true;
@@ -32,6 +34,8 @@ public class MqttClientSubscriber implements MqttCallback {
         this.r = r;
         topic = smi.getSubTopic().toString();
         broker = smi.getSubBroker().toString();
+        username = smi.getUserName().toString();
+        password = smi.getPassword().toString();
         clientId = smi.getClientId();
         qos = smi.getQos();
     }
@@ -42,6 +46,8 @@ public class MqttClientSubscriber implements MqttCallback {
             MqttDefaultFilePersistence dataStore = new MqttDefaultFilePersistence(tmpDir);
             MqttConnectOptions conOpt = new MqttConnectOptions();
             conOpt.setCleanSession(cleanSession);
+            conOpt.setUserName(username);
+            conOpt.setPassword(password.toCharArray());
             client = new MqttClient(broker, clientId);
             client.connect(conOpt);
             client.setCallback(this);

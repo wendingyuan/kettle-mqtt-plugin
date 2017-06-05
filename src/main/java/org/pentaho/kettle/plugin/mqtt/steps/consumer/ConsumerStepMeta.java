@@ -86,6 +86,8 @@ public class ConsumerStepMeta extends BaseStepMeta implements StepMetaInterface 
     private String outputField;
     private String subBroker;
     private String subTopic;
+    private String username;
+    private String password;
     private String clientId;
     private int qos;
 
@@ -128,6 +130,8 @@ public class ConsumerStepMeta extends BaseStepMeta implements StepMetaInterface 
         outputField = "message_field";
         subBroker = "tcp://127.0.0.1:1883";
         subTopic = "iotdevices";
+        username = "";
+        password = "";
         clientId = "client_id";
         qos = 1;
     }
@@ -149,7 +153,15 @@ public class ConsumerStepMeta extends BaseStepMeta implements StepMetaInterface 
         return subTopic;
     }
 
-    public String getClientId() {
+    public String getUserName() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getClientId() {
         return clientId;
     }
 
@@ -174,6 +186,14 @@ public class ConsumerStepMeta extends BaseStepMeta implements StepMetaInterface 
         this.subTopic = subTopic;
     }
 
+	public void setUserName(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
@@ -215,6 +235,8 @@ public class ConsumerStepMeta extends BaseStepMeta implements StepMetaInterface 
         retval.append("    ").append(XMLHandler.addTagValue("outputfield", getOutputField())); //$NON-NLS-1$ //$NON-NLS-2$
         retval.append("    ").append(XMLHandler.addTagValue("subBroker", getSubBroker()));
         retval.append("    ").append(XMLHandler.addTagValue("subTopic", getSubTopic()));
+        retval.append("    ").append(XMLHandler.addTagValue("username", getUserName()));
+        retval.append("    ").append(XMLHandler.addTagValue("password", getPassword()));
         retval.append("    ").append(XMLHandler.addTagValue("clientId", getClientId()));
         retval.append("    ").append(XMLHandler.addTagValue("qos", getQos()));
         return retval.toString();
@@ -236,6 +258,8 @@ public class ConsumerStepMeta extends BaseStepMeta implements StepMetaInterface 
             setOutputField(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "outputfield")));
             setSubBroker(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "subBroker")));
             setSubTopic(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "subTopic")));
+            setUserName(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "username")));
+            setPassword(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "password")));
             setClientId(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "clientId")));
             setQos(Integer.parseInt(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "qos"))));
         } catch (Exception e) {
@@ -258,6 +282,8 @@ public class ConsumerStepMeta extends BaseStepMeta implements StepMetaInterface 
             rep.saveStepAttribute(id_transformation, id_step, "outputfield", outputField); //$NON-NLS-1$
             rep.saveStepAttribute(id_transformation, id_step, "subBroker", subBroker);
             rep.saveStepAttribute(id_transformation, id_step, "subTopic", subTopic);
+            rep.saveStepAttribute(id_transformation, id_step, "username", username);
+            rep.saveStepAttribute(id_transformation, id_step, "password", password);
             rep.saveStepAttribute(id_transformation, id_step, "clientId", clientId);
             rep.saveStepAttribute(id_transformation, id_step, "qos", qos);
         } catch (Exception e) {
@@ -280,6 +306,8 @@ public class ConsumerStepMeta extends BaseStepMeta implements StepMetaInterface 
             outputField = rep.getStepAttributeString(id_step, "outputfield"); //$NON-NLS-1$
             subBroker = rep.getStepAttributeString(id_step, "subBroker");
             subTopic = rep.getStepAttributeString(id_step, "subTopic");
+            username = rep.getStepAttributeString(id_step, "username");
+            password = rep.getStepAttributeString(id_step, "password");
             clientId = rep.getStepAttributeString(id_step, "clientId");
             qos = (int) rep.getStepAttributeInteger(id_step, "qos");
         } catch (Exception e) {

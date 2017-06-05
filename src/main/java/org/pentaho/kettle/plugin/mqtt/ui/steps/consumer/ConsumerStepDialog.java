@@ -41,6 +41,8 @@ public class ConsumerStepDialog extends BaseStepXulDialog implements StepDialogI
         setTextBoxValue("output-field", metaMapper.getOutput());
         setTextBoxValue("hostname-field", metaMapper.getsBroker());
         setTextBoxValue("topic-field", metaMapper.getsTopic());
+        setTextBoxValue("username-field", metaMapper.getsUserName());
+        setTextBoxValue("password-field", metaMapper.getsPassword());
         setTextBoxValue("ClientID-field", metaMapper.getClientId());
         setTextBoxValue("qos-field", Integer.toString(metaMapper.getQos()));
 
@@ -65,6 +67,8 @@ public class ConsumerStepDialog extends BaseStepXulDialog implements StepDialogI
                 "output-field")));
         metaMapper.setsBroker(fetchValue((XulTextbox) getXulDomContainer().getDocumentRoot().getElementById("hostname-field")));
         metaMapper.setSTopic(fetchValue((XulTextbox) getXulDomContainer().getDocumentRoot().getElementById("topic-field")));
+        metaMapper.setsUserName(fetchValue((XulTextbox) getXulDomContainer().getDocumentRoot().getElementById("username-field")));
+        metaMapper.setsPassword(fetchValue((XulTextbox) getXulDomContainer().getDocumentRoot().getElementById("password-field")));
         metaMapper.setClientId(fetchValue((XulTextbox) getXulDomContainer().getDocumentRoot().getElementById("ClientID-field")));
         metaMapper.setQos(Integer.parseInt(fetchValue((XulTextbox) getXulDomContainer().getDocumentRoot().getElementById("qos-field"))));
 
