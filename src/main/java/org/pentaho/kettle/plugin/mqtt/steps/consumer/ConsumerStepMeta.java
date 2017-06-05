@@ -64,11 +64,11 @@ import java.util.List;
  */
 
 @Step(
-        id = "mqttConsumer",
+        id = "ConsumerStep",
         image = "org/pentaho/kettle/plugin/mqtt/steps/consumer/consumer.svg",
         i18nPackageName = "org.pentaho.kettle.plugin.mqtt.steps.consumer",
-        name = "mqttConsumer.Name",
-        description = "mqttConsumer.TooltipDesc",
+        name = "ConsumerStep.Name",
+        description = "ConsumerStep.TooltipDesc",
         categoryDescription = "i18n:org.pentaho.di.trans.step:BaseStep.Category.Transform"
 )
 public class ConsumerStepMeta extends BaseStepMeta implements StepMetaInterface {

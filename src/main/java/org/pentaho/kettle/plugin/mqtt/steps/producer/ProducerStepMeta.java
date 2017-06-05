@@ -30,11 +30,11 @@ import java.util.List;
  * Created by dams on 02-08-2016.
  */
 @Step(
-        id = "mqttProducer",
+        id = "ProducerStep",
         image = "org/pentaho/kettle/plugin/mqtt/steps/producer/producer.svg",
         i18nPackageName = "org.pentaho.kettle.plugin.mqtt.steps.producer",
-        name = "mqttProducer.Name",
-        description = "mqttProducer.TooltipDesc",
+        name = "ProducerStep.Name",
+        description = "ProducerStep.TooltipDesc",
         categoryDescription = "i18n:org.pentaho.di.trans.step:BaseStep.Category.Transform"
 )
 public class ProducerStepMeta extends BaseStepMeta implements StepMetaInterface {
