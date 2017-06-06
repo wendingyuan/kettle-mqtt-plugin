@@ -37,6 +37,8 @@ import java.util.List;
 public class ConsumerStep extends BaseStep implements StepInterface {
 
     private static final Class<?> PKG = ConsumerStep.class;
+    
+    MqttClientSubscriber client = null;
 
     /**
      * The constructor should simply pass on its arguments to the parent class.
@@ -109,42 +111,24 @@ public class ConsumerStep extends BaseStep implements StepInterface {
         // safely cast the step settings (meta) and runtime info (data) to specific implementations
         ConsumerStepMeta meta = (ConsumerStepMeta) smi;
         ConsumerStepData data = (ConsumerStepData) sdi;
-
-        Object[] r;
-
-        if (data.readsRows) {
-            r = getRow();
-            // if no more rows are expected, indicate step is finished and processRow() should not be called again
-            if (r == null) {
-                setOutputDone();
-                return false;
-            }
-            // the "first" flag is inherited from the base step implementation
-            // it is used to guard some processing tasks, like figuring out field indexes
-            // in the row structure that only need to be done once
-            if (first) {
-                first = false;
-                // clone the input row structure and place it in our data object
-                data.outputRowMeta = (RowMetaInterface) getInputRowMeta().clone();
-                // use meta.getFields() to change it, so it reflects the output row structure
-                meta.getFields(data.outputRowMeta, getStepname(), null, null, this, null, null);
-            }
-
-        } else {
-            r = new Object[]{}; //empty row
-            incrementLinesRead();
-
-            if (first) {
-                first = false;
-                data.outputRowMeta = new RowMeta();
-                // use meta.getFields() to change it, so it reflects the output row structure
-                meta.getFields(data.outputRowMeta, getStepname(), null, null, this, null, null);
-                MqttClientSubscriber client = new MqttClientSubscriber(meta, data, this, r);
-                client.start();
-            }
+        
+        if (first) {
+        	Object[] r = new Object[]{}; //empty row
+            first = false;
+            data.outputRowMeta = new RowMeta();
+            // use meta.getFields() to change it, so it reflects the output row structure
+            meta.getFields(data.outputRowMeta, getStepname(), null, null, this, null, null);
+            client = new MqttClientSubscriber(meta, data, this, r);
+            client.start();
         }
-
-
+        
+        try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         return true;
     }
 
@@ -168,5 +152,7 @@ public class ConsumerStep extends BaseStep implements StepInterface {
         ConsumerStepData data = (ConsumerStepData) sdi;
 
         super.dispose(meta, data);
+        if(client != null)
+        	client.stop();
     }
 }
